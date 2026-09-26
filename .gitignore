@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+# original full-resolution photo (6 MB) — crops live in assets/images
+assets/images/DSC_8484.JPG
+
+# raw LinkedIn notes used to write cv-data.js — not for publishing
+cv-compact.txt
+temp/

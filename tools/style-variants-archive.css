@@ -1,0 +1,513 @@
+/* ==================================================================
+   ARCHIVE - the seven preview styles from the 2026-09 redesign.
+   Not loaded by any page. Kept so a style can be brought back later.
+
+   The site now ships Arcade Ocean, folded into assets/css/site.css
+   (tokens in :root / :root[data-theme="light"], component rules in
+   the "Look" block near the end of the file).
+
+   TO PREVIEW ALL STYLES AGAIN
+   1. Restore the pre-Ocean files from git in one go:
+        git checkout 44cf5bf~1 -- index.html assets/js/site.js assets/css/site.css assets/css/styles-variants.css
+      (that commit has the style bar, the switcher JS, the base tokens
+      and the variants file exactly as they were)
+   2. Or by hand: put section A below back into site.css in place of
+      the :root / light blocks, delete site.css's "Look" block, save
+      section B as assets/css/styles-variants.css, link it after
+      site.css, paste the HTML and JS from section C, and restore the
+      full Google Fonts link:
+        Inter 400-800 · JetBrains Mono 400,500 · Space Grotesk 500,700 ·
+        Fraunces ital,opsz,wght 0,9..144,400 0,9..144,500 1,9..144,400 ·
+        Manrope 500-800 · Nunito 500-800
+
+   TO SWITCH TO ONE OTHER STYLE FOR GOOD
+   Take that style's token block from section B, merge it into :root
+   (and its dark/light twin into the theme block), move its component
+   rules into site.css, drop the ones you do not want.
+   ================================================================== */
+
+
+/* ==================================================================
+   A. BASE TOKENS site.css shipped before the Ocean pick
+   (the green "default" look, which the variants overrode)
+   ================================================================== */
+:root {
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-sans);
+  --display-weight: 800;
+  --display-tracking: -0.035em;
+  --border-w: 1px;
+  --card-shadow: none;
+
+  --bg: #0a0d12;
+  --bg-2: #0e1219;
+  --surface: #12171f;
+  --surface-2: #171d27;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #e8edf2;
+  --text-2: #a6b1bd;
+  --text-3: #8592a1;
+  --focus: var(--accent);
+  --accent: #7cf29a;
+  --accent-2: #5ee6d0;
+  --accent-ink: #062a14;
+  --accent-soft: rgba(124, 242, 154, 0.12);
+  --glow: rgba(124, 242, 154, 0.18);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  --radius: 18px;
+  --wrap: 1120px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+:root[data-theme="light"] {
+  --bg: #f5f7fa;
+  --bg-2: #eef1f5;
+  --surface: #ffffff;
+  --surface-2: #f7f9fb;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #5b6675;
+  --accent: #15803d;
+  --accent-2: #0d9488;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(21, 128, 61, 0.1);
+  --glow: rgba(21, 128, 61, 0.14);
+
+
+/* ==================================================================
+   B. assets/css/styles-variants.css, verbatim
+   ================================================================== */
+/* ------------------------------------------------------------------
+   Visual style variants, switched with the bar at the top of the page.
+   Each variant overrides tokens (colours, fonts, shape) and a few
+   component rules. Every variant has a dark and a light palette.
+
+   data-style: "arcade" (default) | "arcade-mix" | "arcade-ember" | "arcade-ocean" | "editorial" | "warm" | "soft"
+   ------------------------------------------------------------------ */
+
+/* ---------- style bar (preview tool) ---------- */
+.style-bar {
+  position: relative; z-index: 60;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  padding: 8px var(--gutter);
+  background: #0b0b0c; color: #d4d4d8;
+  font: 500 12.5px/1 var(--font-mono);
+  border-bottom: 1px solid #27272a;
+}
+.style-bar__label { color: #71717a; margin-right: 6px; letter-spacing: .06em; text-transform: uppercase; }
+.style-bar button {
+  font: inherit; color: #d4d4d8; background: #18181b; border: 1px solid #3f3f46;
+  border-radius: 999px; padding: 7px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.style-bar button:hover { border-color: #a1a1aa; color: #fff; }
+.style-bar button[aria-pressed="true"] { background: #fafafa; color: #09090b; border-color: #fafafa; }
+.style-bar__swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.style-bar__hint { margin-left: auto; color: #71717a; font-size: 11.5px; }
+@media (max-width: 700px) { .style-bar__hint { display: none; } }
+@media print { .style-bar { display: none !important; } }
+
+/* ==================================================================
+   2. EDITORIAL — warm paper, serif display, magazine rhythm
+   ================================================================== */
+:root[data-style="editorial"] {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --display-weight: 500;
+  --display-tracking: -0.02em;
+  --radius: 6px;
+  --border-w: 1px;
+
+  --bg: #f4efe6;
+  --bg-2: #ede6d9;
+  --surface: #faf7f1;
+  --surface-2: #f1ebe0;
+  --border: rgba(38, 30, 18, 0.12);
+  --border-strong: rgba(38, 30, 18, 0.28);
+  --text: #1c1814;
+  --text-2: #4e463c;
+  --text-3: #6b6052;
+  --accent: #c2410c;
+  --accent-2: #b45309;
+  --accent-ink: #fff7ed;
+  --accent-soft: rgba(194, 65, 12, 0.1);
+  --glow: rgba(194, 65, 12, 0.12);
+  --shadow: 0 24px 60px rgba(60, 40, 10, 0.18);
+  --card-shadow: none;
+}
+:root[data-style="editorial"][data-theme="dark"] {
+  --bg: #17130f;
+  --bg-2: #1d1813;
+  --surface: #211b16;
+  --surface-2: #29221c;
+  --border: rgba(255, 240, 220, 0.1);
+  --border-strong: rgba(255, 240, 220, 0.22);
+  --text: #f3ebdf;
+  --text-2: #bfb3a2;
+  --text-3: #9a8d7c;
+  --accent: #fb923c;
+  --accent-2: #f59e0b;
+  --accent-ink: #1c1208;
+  --accent-soft: rgba(251, 146, 60, 0.12);
+  --glow: rgba(251, 146, 60, 0.14);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+:root[data-style="editorial"] .hero__bg::after { display: none; }
+:root[data-style="editorial"] .hero__name { font-size: clamp(48px, 8vw, 96px); line-height: .95; }
+:root[data-style="editorial"] .hero__name::after { content: "."; color: var(--accent); }
+:root[data-style="editorial"] .hero__headline { font-family: var(--font-display); font-weight: 400; font-style: italic; font-size: clamp(22px, 3vw, 32px); }
+:root[data-style="editorial"] .section__head h2 { font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); }
+:root[data-style="editorial"] .eyebrow { font-family: var(--font-sans); font-weight: 600; letter-spacing: .14em; }
+:root[data-style="editorial"] .card, :root[data-style="editorial"] .job, :root[data-style="editorial"] .stat {
+  background: transparent; border: 0; border-top: 1px solid var(--border-strong); border-radius: 0; padding-left: 0; padding-right: 0;
+}
+:root[data-style="editorial"] .card:hover { transform: none; }
+:root[data-style="editorial"] .card::after { display: none; }
+:root[data-style="editorial"] .bento { gap: 0 32px; }
+:root[data-style="editorial"] .card__icon { background: transparent; color: var(--accent); width: auto; height: auto; margin-bottom: 12px; justify-content: start; }
+:root[data-style="editorial"] .card h3 { font-size: 24px; font-weight: 500; }
+:root[data-style="editorial"] .hero__photo-frame { border-radius: 4px; }
+:root[data-style="editorial"] .hero__photo-frame::before { display: none; }
+:root[data-style="editorial"] .btn { border-radius: 4px; }
+:root[data-style="editorial"] .status { border-radius: 4px; font-family: var(--font-sans); font-weight: 600; }
+:root[data-style="editorial"] .status__dot { animation: none; }
+:root[data-style="editorial"] .contact-card { border-radius: 8px; background: var(--surface); }
+:root[data-style="editorial"] .contact-card h2 { font-weight: 500; }
+:root[data-style="editorial"] .job__role { font-size: 24px; font-weight: 500; }
+
+/* ==================================================================
+   3. ARCADE — deep space, gradients, glass, glow.
+   Four variants share the same rules (selectors match the "arcade"
+   prefix); only the token sets differ:
+     arcade        violet → cyan, one accent gradient throughout
+     arcade-mix    same colours, icons and stats rotate through hues
+     arcade-ember  pink → amber, multi-hue
+     arcade-ocean  blue → mint, multi-hue
+   ================================================================== */
+:root[data-style^="arcade"] {
+  --font-display: "Space Grotesk", var(--font-sans);
+  --display-weight: 700;
+  --display-tracking: -0.03em;
+  --radius: 24px;
+  --border-w: 1px;
+
+  --bg: #07060f;
+  --bg-2: #0b0918;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --text: #f1eefc;
+  --text-2: #b3acc9;
+  --text-3: #8f87a8;
+  --accent-ink: #120820;
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  /* hue palette for icons / stats (dark) */
+  --h1: #c084fc; --h2: #22d3ee; --h3: #f472b6; --h4: #fbbf24; --h5: #34d399; --h6: #60a5fa;
+}
+:root[data-style^="arcade"][data-theme="light"] {
+  --bg: #f4f2fb;
+  --bg-2: #ece9f8;
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-2: rgba(255, 255, 255, 0.95);
+  --border: rgba(40, 30, 90, 0.1);
+  --border-strong: rgba(40, 30, 90, 0.22);
+  --text: #16102b;
+  --text-2: #4b4468;
+  --text-3: #6a6187;
+  --accent-ink: #ffffff;
+  --card-shadow: none;
+  --h1: #7c3aed; --h2: #0e7490; --h3: #be185d; --h4: #b45309; --h5: #047857; --h6: #1d4ed8;
+}
+
+/* colourways */
+:root[data-style="arcade"], :root[data-style="arcade-mix"] { --accent: #c084fc; --accent-2: #22d3ee; --accent-soft: rgba(192, 132, 252, 0.14); --glow: rgba(192, 132, 252, 0.28); --shadow: 0 30px 80px rgba(120, 60, 255, 0.25); }
+:root[data-style="arcade"][data-theme="light"], :root[data-style="arcade-mix"][data-theme="light"] { --accent: #7c3aed; --accent-2: #0e7490; --accent-soft: rgba(124, 58, 237, 0.1); --glow: rgba(124, 58, 237, 0.18); --shadow: 0 30px 80px rgba(124, 58, 237, 0.18); }
+
+:root[data-style="arcade-ember"] { --bg: #0f0710; --bg-2: #150a16; --accent: #f472b6; --accent-2: #fbbf24; --accent-soft: rgba(244, 114, 182, 0.14); --glow: rgba(244, 114, 182, 0.26); --shadow: 0 30px 80px rgba(244, 114, 182, 0.22); --h1: #f472b6; --h2: #fbbf24; --h3: #c084fc; --h4: #fb7185; --h5: #34d399; --h6: #22d3ee; }
+:root[data-style="arcade-ember"][data-theme="light"] { --bg: #fbf3f6; --bg-2: #f7e9ee; --border: rgba(90, 30, 60, 0.1); --border-strong: rgba(90, 30, 60, 0.22); --text: #2b1020; --text-2: #5e3f50; --text-3: #7d6472; --accent: #be185d; --accent-2: #b45309; --accent-soft: rgba(190, 24, 93, 0.1); --glow: rgba(190, 24, 93, 0.16); --shadow: 0 30px 80px rgba(190, 24, 93, 0.16); --h1: #be185d; --h2: #b45309; --h3: #7c3aed; --h4: #e11d48; --h5: #047857; --h6: #0e7490; }
+
+:root[data-style="arcade-ocean"] { --bg: #050b14; --bg-2: #08101c; --accent: #60a5fa; --accent-2: #34d399; --accent-soft: rgba(96, 165, 250, 0.14); --glow: rgba(96, 165, 250, 0.28); --shadow: 0 30px 80px rgba(96, 165, 250, 0.22); --h1: #60a5fa; --h2: #34d399; --h3: #c084fc; --h4: #f472b6; --h5: #fbbf24; --h6: #22d3ee; }
+:root[data-style="arcade-ocean"][data-theme="light"] { --bg: #f0f5fb; --bg-2: #e6eef8; --border: rgba(20, 50, 90, 0.1); --border-strong: rgba(20, 50, 90, 0.22); --text: #0f1b2d; --text-2: #3f4f66; --text-3: #62728a; --accent: #1d4ed8; --accent-2: #047857; --accent-soft: rgba(29, 78, 216, 0.1); --glow: rgba(29, 78, 216, 0.16); --shadow: 0 30px 80px rgba(29, 78, 216, 0.16); --h1: #1d4ed8; --h2: #047857; --h3: #7c3aed; --h4: #be185d; --h5: #b45309; --h6: #0e7490; }
+
+/* shared arcade rules */
+:root[data-style^="arcade"] .hero__bg {
+  background:
+    radial-gradient(50% 60% at 85% 0%, var(--glow), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 70%),
+    radial-gradient(30% 30% at 50% 50%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
+}
+:root[data-style^="arcade"] .hero__bg::after { display: none; }
+:root[data-style^="arcade"] .hero__name {
+  background: linear-gradient(100deg, var(--text) 0%, var(--accent) 55%, var(--accent-2) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: .06em;
+}
+:root[data-style^="arcade"] .hero__headline .hl { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-style^="arcade"] .card:hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade"] .btn--primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: 0 10px 30px -10px var(--glow); }
+:root[data-style^="arcade"] .hero__photo-frame { border-radius: 32px; }
+:root[data-style^="arcade"] .hero__photo-frame::before { padding: 2px; background: linear-gradient(160deg, var(--accent), var(--accent-2)); }
+:root[data-style^="arcade"] .status { background: linear-gradient(90deg, var(--accent-soft), color-mix(in srgb, var(--accent-2) 12%, transparent)); }
+:root[data-style^="arcade"] .status__dot { background: var(--accent-2); }
+:root[data-style^="arcade"] .eyebrow { color: var(--accent-2); }
+:root[data-style^="arcade"] .job__bullets li::before { border-radius: 50%; background: var(--accent-2); }
+:root[data-style^="arcade"] .job__period { color: var(--accent-2); }
+:root[data-style^="arcade"] .nav { background: color-mix(in srgb, var(--bg) 60%, transparent); }
+
+/* classic arcade: one accent gradient everywhere */
+:root[data-style="arcade"] .card__icon { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--accent-ink); border-radius: 14px; }
+:root[data-style="arcade"] .stat__value { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-style="arcade"] .stat__value small { -webkit-text-fill-color: var(--text-2); }
+
+/* colour variety: bento icons and stat values cycle through the hue palette */
+:root[data-style^="arcade-"] .card__icon { border-radius: 14px; color: var(--accent-ink); }
+:root[data-style^="arcade-"] .bento .card:nth-child(1) .card__icon { background: linear-gradient(135deg, var(--h1), color-mix(in srgb, var(--h1) 55%, var(--h2))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(2) .card__icon { background: linear-gradient(135deg, var(--h2), color-mix(in srgb, var(--h2) 55%, var(--h5))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(3) .card__icon { background: linear-gradient(135deg, var(--h3), color-mix(in srgb, var(--h3) 55%, var(--h1))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(4) .card__icon { background: linear-gradient(135deg, var(--h4), color-mix(in srgb, var(--h4) 55%, var(--h3))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(5) .card__icon { background: linear-gradient(135deg, var(--h5), color-mix(in srgb, var(--h5) 55%, var(--h6))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(6) .card__icon { background: linear-gradient(135deg, var(--h6), color-mix(in srgb, var(--h6) 55%, var(--h1))); }
+:root[data-style^="arcade-"] .bento .card:nth-child(1):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h1) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .bento .card:nth-child(2):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h2) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .bento .card:nth-child(3):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h3) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .bento .card:nth-child(4):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h4) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .bento .card:nth-child(5):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h5) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .bento .card:nth-child(6):hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--h6) 50%, transparent), 0 20px 50px -20px var(--glow); }
+:root[data-style^="arcade-"] .stat__value { -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-style^="arcade-"] .stat:nth-child(1) .stat__value { background-image: linear-gradient(90deg, var(--h1), var(--h2)); }
+:root[data-style^="arcade-"] .stat:nth-child(2) .stat__value { background-image: linear-gradient(90deg, var(--h3), var(--h4)); }
+:root[data-style^="arcade-"] .stat:nth-child(3) .stat__value { background-image: linear-gradient(90deg, var(--h5), var(--h6)); }
+:root[data-style^="arcade-"] .stat__value small { -webkit-text-fill-color: var(--text-2); }
+/* ocean: blue→violet, violet→pink (the key number, most contrast), mint→cyan closes the row on the button's end colour */
+:root[data-style="arcade-ocean"] .stat:nth-child(1) .stat__value { background-image: linear-gradient(90deg, var(--h1), var(--h3)); }
+:root[data-style="arcade-ocean"] .stat:nth-child(2) .stat__value { background-image: linear-gradient(90deg, var(--h3), var(--h4)); }
+:root[data-style="arcade-ocean"] .stat:nth-child(3) .stat__value { background-image: linear-gradient(90deg, var(--accent-2), var(--h6)); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+1) h3 { color: var(--h1); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+2) h3 { color: var(--h2); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+3) h3 { color: var(--h3); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+4) h3 { color: var(--h4); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+5) h3 { color: var(--h5); }
+:root[data-style^="arcade-"] .skill-group:nth-child(6n+6) h3 { color: var(--h6); }
+
+/* ==================================================================
+   5. WARM — soft-autumn palette: muted, warm, low-saturation earth
+   tones, a friendly humanist sans, rounded shapes, the photo as anchor.
+   ================================================================== */
+:root[data-style="warm"] {
+  --font-sans: "Manrope", "Inter", system-ui, sans-serif;
+  --font-display: "Manrope", "Inter", system-ui, sans-serif;
+  --display-weight: 800;
+  --display-tracking: -0.03em;
+  --radius: 20px;
+  --border-w: 1px;
+
+  --bg: #f5efe6;
+  --bg-2: #ece4d8;
+  --surface: #fdfbf7;
+  --surface-2: #f0e8dc;
+  --border: rgba(70, 50, 30, 0.14);
+  --border-strong: rgba(70, 50, 30, 0.28);
+  --text: #2a231d;
+  --text-2: #55493f;
+  --text-3: #6b5f54;
+  --accent: #8c4a35;
+  --accent-2: #3d6557;
+  --accent-ink: #fbf6f0;
+  --accent-soft: rgba(140, 74, 53, 0.12);
+  --glow: rgba(140, 74, 53, 0.12);
+  --shadow: 0 18px 50px rgba(80, 55, 30, 0.14);
+  --card-shadow: 0 1px 2px rgba(80, 55, 30, 0.04), 0 8px 24px -12px rgba(80, 55, 30, 0.12);
+  --focus: #8c4a35;
+}
+:root[data-style="warm"][data-theme="dark"] {
+  --bg: #1b1714;
+  --bg-2: #211c18;
+  --surface: #27211d;
+  --surface-2: #302923;
+  --border: rgba(245, 230, 210, 0.11);
+  --border-strong: rgba(245, 230, 210, 0.24);
+  --text: #f4ece1;
+  --text-2: #cbbdae;
+  --text-3: #a89a8c;
+  --accent: #dda083;
+  --accent-2: #97bcab;
+  --accent-ink: #2a1a12;
+  --accent-soft: rgba(211, 152, 124, 0.12);
+  --glow: rgba(211, 152, 124, 0.10);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+  --card-shadow: none;
+  --focus: #d3987c;
+}
+:root[data-style="warm"] .hero__bg { background: radial-gradient(55% 60% at 85% 20%, var(--glow), transparent 70%); }
+:root[data-style="warm"] .hero__bg::after { display: none; }
+:root[data-style="warm"] .hero__grid { align-items: center; }
+:root[data-style="warm"] .hero__photo { width: min(100%, 340px); }
+:root[data-style="warm"] .hero__photo-frame { border-radius: 50% 50% 44% 44% / 46% 46% 54% 54%; aspect-ratio: 1; box-shadow: var(--shadow); }
+:root[data-style="warm"] .hero__photo-frame::before { display: none; }
+:root[data-style="warm"] .hero__name { font-size: clamp(40px, 6vw, 68px); }
+:root[data-style="warm"] .hero__headline { font-weight: 700; }
+:root[data-style="warm"] .hero__where { font-family: var(--font-sans); font-weight: 600; font-size: 14px; }
+:root[data-style="warm"] .status { font-family: var(--font-sans); font-weight: 700; font-size: 13px; background: var(--accent-soft); color: var(--text); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+:root[data-style="warm"] .status__dot { background: var(--accent-2); animation: none; }
+:root[data-style="warm"] .status__sep, :root[data-style="warm"] .status__mode { color: var(--text-2); }
+:root[data-style="warm"] .eyebrow { font-family: var(--font-sans); font-weight: 700; letter-spacing: .1em; color: var(--accent-2); }
+:root[data-style="warm"] .section__head h2 { font-weight: 800; letter-spacing: -0.03em; }
+:root[data-style="warm"] .card::after { display: none; }
+:root[data-style="warm"] .card__icon { background: var(--accent-soft); color: var(--accent); border-radius: 14px; }
+:root[data-style="warm"] .btn { font-weight: 700; }
+:root[data-style="warm"] .job__period { color: var(--accent-2); font-family: var(--font-sans); font-weight: 700; }
+:root[data-style="warm"] .job__bullets li::before { border-radius: 50%; background: var(--accent); }
+:root[data-style="warm"] .product { background: var(--bg-2); }
+:root[data-style="warm"] .product__note { font-family: var(--font-sans); }
+:root[data-style="warm"] .archive__meta { font-family: var(--font-sans); }
+:root[data-style="warm"] .contact-card { background: var(--accent-2); color: #f3f6f2; border-color: transparent; border-radius: 28px; }
+:root[data-style="warm"] .contact-card .eyebrow, :root[data-style="warm"] .contact-card__text, :root[data-style="warm"] .contact-card__email { color: rgba(243, 246, 242, 0.85); }
+:root[data-style="warm"] .contact-card .btn { background: #fdfbf7; color: #2a231d; border-color: transparent; }
+:root[data-style="warm"] .contact-card .btn--primary { background: #2a231d; color: #f4ece1; }
+
+/* ==================================================================
+   7. SOFT — light, low-saturation, several soft hues with low visual
+   complexity, rounded forms, a large photo, a rounded typeface.
+   ================================================================== */
+:root[data-style="soft"] {
+  --font-sans: "Nunito", "Manrope", system-ui, sans-serif;
+  --font-display: "Nunito", "Manrope", system-ui, sans-serif;
+  --display-weight: 800;
+  --display-tracking: -0.02em;
+  --radius: 24px;
+  --border-w: 1px;
+
+  --bg: #faf8fc;
+  --bg-2: #f3eff8;
+  --surface: #ffffff;
+  --surface-2: #f6f2fa;
+  --border: rgba(90, 60, 110, 0.1);
+  --border-strong: rgba(90, 60, 110, 0.2);
+  --text: #2b2236;
+  --text-2: #5a5064;
+  --text-3: #756b80;
+  --accent: #9b3d7a;
+  --accent-2: #2f8f9d;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(155, 61, 122, 0.1);
+  --glow: rgba(155, 61, 122, 0.12);
+  --shadow: 0 20px 50px rgba(90, 60, 110, 0.18);
+  --card-shadow: 0 1px 2px rgba(90, 60, 110, 0.05), 0 10px 30px -14px rgba(90, 60, 110, 0.2);
+  --focus: #9b3d7a;
+}
+:root[data-style="soft"][data-theme="dark"] {
+  --bg: #1a1520;
+  --bg-2: #201a27;
+  --surface: #251e2d;
+  --surface-2: #2d2536;
+  --border: rgba(240, 225, 250, 0.09);
+  --border-strong: rgba(240, 225, 250, 0.2);
+  --text: #f4eefa;
+  --text-2: #c3b8cf;
+  --text-3: #9a8fa8;
+  --accent: #e08ac1;
+  --accent-2: #5fc3d1;
+  --accent-ink: #2a1030;
+  --accent-soft: rgba(224, 138, 193, 0.14);
+  --glow: rgba(224, 138, 193, 0.14);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --card-shadow: none;
+  --focus: #e08ac1;
+}
+:root[data-style="soft"] .hero__bg {
+  background:
+    radial-gradient(50% 55% at 85% 15%, var(--glow), transparent 70%),
+    radial-gradient(40% 45% at 5% 95%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 70%);
+}
+:root[data-style="soft"] .hero__bg::after { display: none; }
+:root[data-style="soft"] .hero__grid { grid-template-columns: 1.1fr .9fr; }
+:root[data-style="soft"] .hero__photo { width: min(100%, 400px); }
+:root[data-style="soft"] .hero__photo-frame { border-radius: 42% 58% 55% 45% / 45% 45% 55% 55%; aspect-ratio: 1; box-shadow: var(--shadow); }
+:root[data-style="soft"] .hero__photo-frame::before { display: none; }
+:root[data-style="soft"] .hero__name { font-size: clamp(40px, 6vw, 68px); }
+:root[data-style="soft"] .hero__headline { font-weight: 700; }
+:root[data-style="soft"] .hero__headline .hl { color: var(--accent); }
+:root[data-style="soft"] .hero__where { font-family: var(--font-sans); font-weight: 600; font-size: 14px; }
+:root[data-style="soft"] .status { font-family: var(--font-sans); font-weight: 700; font-size: 13px; background: color-mix(in srgb, var(--accent-2) 14%, transparent); color: var(--text); border-color: color-mix(in srgb, var(--accent-2) 40%, transparent); }
+:root[data-style="soft"] .status__dot { background: var(--accent-2); animation: none; }
+:root[data-style="soft"] .btn { font-weight: 700; }
+:root[data-style="soft"] .btn--primary { background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--accent-2))); }
+:root[data-style="soft"] .stat { border-radius: 20px; }
+:root[data-style="soft"] .stat:nth-child(1) .stat__value { color: var(--accent); }
+:root[data-style="soft"] .stat:nth-child(2) .stat__value { color: var(--accent-2); }
+:root[data-style="soft"] .stat:nth-child(3) .stat__value { color: #c2732a; }
+:root[data-style="soft"] .eyebrow { font-family: var(--font-sans); font-weight: 800; letter-spacing: .1em; color: var(--accent-2); }
+:root[data-style="soft"] .section__head h2 { font-weight: 800; }
+:root[data-style="soft"] .card::after { display: none; }
+:root[data-style="soft"] .card { border-radius: 22px; }
+/* a rotating set of soft hues on the icons: colour variety without complexity */
+:root[data-style="soft"] .card__icon { border-radius: 14px; }
+:root[data-style="soft"] .bento .card:nth-child(1) .card__icon { background: rgba(155, 61, 122, .12); color: #9b3d7a; }
+:root[data-style="soft"] .bento .card:nth-child(2) .card__icon { background: rgba(47, 143, 157, .14); color: #2f8f9d; }
+:root[data-style="soft"] .bento .card:nth-child(3) .card__icon { background: rgba(194, 115, 42, .14); color: #c2732a; }
+:root[data-style="soft"] .bento .card:nth-child(4) .card__icon { background: rgba(76, 120, 200, .14); color: #4c78c8; }
+:root[data-style="soft"] .bento .card:nth-child(5) .card__icon { background: rgba(72, 150, 96, .14); color: #48965f; }
+:root[data-style="soft"] .bento .card:nth-child(6) .card__icon { background: rgba(155, 61, 122, .12); color: #9b3d7a; }
+:root[data-style="soft"][data-theme="dark"] .bento .card .card__icon { filter: brightness(1.5); }
+:root[data-style="soft"] .job { border-radius: 22px; }
+:root[data-style="soft"] .job__period { color: var(--accent-2); font-family: var(--font-sans); font-weight: 700; }
+:root[data-style="soft"] .job__bullets li::before { border-radius: 50%; background: var(--accent); }
+:root[data-style="soft"] .product { background: var(--surface-2); border-radius: 14px; }
+:root[data-style="soft"] .product__note, :root[data-style="soft"] .archive__meta { font-family: var(--font-sans); }
+:root[data-style="soft"] .contact-card { border-radius: 28px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, var(--surface)), color-mix(in srgb, var(--accent-2) 14%, var(--surface))); border-color: transparent; }
+@media (max-width: 860px) { :root[data-style="soft"] .hero__grid { grid-template-columns: 1fr; } }
+
+
+/* ==================================================================
+   C. Style bar markup and switcher JS, verbatim
+   ================================================================== */
+/*
+--- index.html: <html> tag ---
+<html lang="en" data-theme="dark" data-style="arcade">
+
+--- index.html: head, after site.css ---
+<link rel="stylesheet" href="assets/css/styles-variants.css">
+
+--- index.html: inline bootstrap script, after the data-theme line ---
+var s = localStorage.getItem('style') || 'arcade';
+document.documentElement.setAttribute('data-style', s);
+
+--- index.html: first child of <body>, after the skip link ---
+  <!-- Style switcher (preview tool - delete this block once you've picked a style) -->
+  <div class="style-bar" role="group" aria-label="Visual style">
+    <span class="style-bar__label">Style</span>
+    <button type="button" data-set-style="arcade" aria-pressed="true"><span class="style-bar__swatch" style="background:linear-gradient(90deg,#c084fc,#22d3ee)"></span>Arcade</button>
+    <button type="button" data-set-style="arcade-mix" aria-pressed="false"><span class="style-bar__swatch" style="background:conic-gradient(#c084fc,#22d3ee,#f472b6,#fbbf24,#34d399,#60a5fa,#c084fc)"></span>Arcade Mix</button>
+    <button type="button" data-set-style="arcade-ember" aria-pressed="false"><span class="style-bar__swatch" style="background:linear-gradient(90deg,#f472b6,#fbbf24)"></span>Arcade Ember</button>
+    <button type="button" data-set-style="arcade-ocean" aria-pressed="false"><span class="style-bar__swatch" style="background:linear-gradient(90deg,#60a5fa,#34d399)"></span>Arcade Ocean</button>
+    <button type="button" data-set-style="editorial" aria-pressed="false"><span class="style-bar__swatch" style="background:#c2410c"></span>Editorial</button>
+    <button type="button" data-set-style="warm" aria-pressed="false"><span class="style-bar__swatch" style="background:linear-gradient(90deg,#8c4a35,#3d6557)"></span>Warm</button>
+    <button type="button" data-set-style="soft" aria-pressed="false"><span class="style-bar__swatch" style="background:linear-gradient(90deg,#9b3d7a,#2f8f9d)"></span>Soft</button>
+    <span class="style-bar__hint">each style has a dark/light variant - use the sun/moon toggle</span>
+  </div>
+
+--- assets/js/site.js: replace the lone syncTheme(); call before the reveal block ---
+  // ---------- style switcher (preview tool) ----------
+  var styleButtons = document.querySelectorAll('[data-set-style]');
+  var KNOWN = ['arcade', 'arcade-mix', 'arcade-ember', 'arcade-ocean', 'editorial', 'warm', 'soft'];
+  function applyStyle(name) {
+    if (KNOWN.indexOf(name) < 0) name = 'arcade';
+    root.setAttribute('data-style', name);
+    styleButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set-style') === name)); });
+    try { localStorage.setItem('style', name); } catch (e) {}
+    syncTheme();
+  }
+  styleButtons.forEach(function (b) {
+    b.addEventListener('click', function () { applyStyle(b.getAttribute('data-set-style')); });
+  });
+  var fromUrl = /[?&]style=([a-z-]+)/.exec(location.search);
+  applyStyle(fromUrl ? fromUrl[1] : (root.getAttribute('data-style') || 'arcade'));
+*/

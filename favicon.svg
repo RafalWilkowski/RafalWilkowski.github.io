@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0a0d12"/>
+  <text x="32" y="43" font-family="JetBrains Mono, Menlo, monospace" font-size="30" font-weight="600" text-anchor="middle" fill="#e8edf2">RW</text>
+  <circle cx="54" cy="46" r="5" fill="#7cf29a"/>
+</svg>

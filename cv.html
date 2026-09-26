@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rafał Wilkowski — CV</title>
+  <meta name="author" content="Rafał Wilkowski">
+  <meta name="description" content="CV of Rafał Wilkowski, Senior Unity / C# Game Engineer (F2P mobile). Printable A4 version.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/cv.css">
+</head>
+<body>
+
+  <main class="page" id="cv">
+
+    <header class="cv-head">
+      <img class="cv-head__photo" id="cv-photo" src="assets/images/rafal-avatar-320.jpg" width="320" height="320" alt="" hidden>
+      <div class="cv-head__text">
+        <p class="cv-head__meta" id="cv-meta"></p>
+        <h1 id="cv-name"></h1>
+        <p class="cv-head__headline" id="cv-headline"></p>
+        <p class="cv-head__looking" id="cv-looking" hidden></p>
+      </div>
+      <ul class="cv-head__contact" id="cv-contact" aria-label="Contact"></ul>
+    </header>
+
+    <ul class="cv-stats" id="cv-stats" aria-label="Key facts"></ul>
+
+    <div class="cv-body">
+      <div class="cv-main">
+        <section class="cv-section">
+          <h2>Profile</h2>
+          <div class="cv-prose" id="cv-summary"></div>
+        </section>
+
+        <section class="cv-section">
+          <h2>Experience <span class="cv-section__when" id="cv-experience-when"></span></h2>
+          <div id="cv-experience"></div>
+        </section>
+
+      </div>
+
+      <aside class="cv-side">
+        <section class="cv-section">
+          <h2>Skills</h2>
+          <div id="cv-skills"></div>
+        </section>
+
+        <section class="cv-section">
+          <h2>Languages</h2>
+          <ul class="cv-langs" id="cv-languages"></ul>
+        </section>
+
+
+        <section class="cv-section" id="cv-education-section" hidden>
+          <h2>Education</h2>
+          <div id="cv-education"></div>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="cv-foot">
+      <p id="cv-gdpr"></p>
+    </footer>
+  </main>
+
+  <script src="assets/js/dom.js"></script>
+  <script src="assets/js/cv-data.js"></script>
+  <script src="assets/js/cv.js"></script>
+</body>
+</html>
