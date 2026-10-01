@@ -20,7 +20,7 @@ window.CV = {
 
   contact: {
     email: "rafal.wilkowski.gamedev@gmail.com",
-    linkedin: "https://www.linkedin.com/in/rafa%C5%82wilkowski/",
+    linkedin: "https://www.linkedin.com/in/rafalwilkowski/",
     website: "https://rafalwilkowski.github.io"
   },
 
